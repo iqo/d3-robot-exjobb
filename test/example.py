@@ -11,7 +11,6 @@ try:
     ]})
     d3.sendCommand('screensaver.nudge');
     d3.sendCommand('camera.enable', { 'template': 'screen' });
-    d3.sendCommand('gridManager.enable');
     d3.sendCommand('base.requestStatus');
     while True:
         packet = d3.recv()
@@ -23,7 +22,7 @@ try:
                 print('camera enabled')
 
 except KeyboardInterrupt:
-    d3.sendCommand('camera.disable');S
+    d3.sendCommand('camera.disable');
     d3.sendCommand('screensaver.nudge');
     d3.close()
     print('cleaned up')
