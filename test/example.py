@@ -12,7 +12,7 @@ try:
     ]})
     d3.sendCommand('screensaver.nudge');
     # d3.sendCommand('camera.enable', { 'template': 'screen' });
-    d3.sendCommand('camera.enable', {'width':'1152','height':'720','template':'h264ForWebRTC','gstreamer':'appsrc name=d3src ! autovideosink'});
+    d3.sendCommand('camera.enable', {'width':1152,'height':720,'template':'h264ForWebRTC','gstreamer':'appsrc name=d3src ! autovideosink'});
     #d3.sendCommand('navigate.enable');
     #d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});
     #d3.sendCommand('navigate.target',{'x':'0','y':'0','angleRadians':'0','relative':'true','dock':'false','dockId':'0'});
