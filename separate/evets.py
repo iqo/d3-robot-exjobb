@@ -25,8 +25,8 @@ def subscribeEvents():
                     print('camerahitResult = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.arrive':
                     print('navigate arrive = ---->', packet['data'], '<----')
-                elif event == 'DRNavigateModule.target':
-                    print('navigate target = ---->', packet['data'], '<----')
+                elif event == 'DRNavigateModule.newTarget':
+                    print('new target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
                     print('navigate target state  = ---->', packet['data'], '<----')    
 
@@ -34,3 +34,7 @@ def subscribeEvents():
         d3.close()
         print('cleaned up')
         sys.exit(0)
+
+
+
+subscribeEvents()
