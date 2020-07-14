@@ -1,6 +1,5 @@
-import ../SDK/double
+from SDK import double
 import sys
-
 
 
 def subscribeEvents():
