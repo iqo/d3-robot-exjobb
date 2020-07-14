@@ -5,28 +5,17 @@ def navigate():
     d3 = double.DRDoubleSDK()
     try:
         d3.sendCommand('events.subscribe', { 'events': [
-        'DRCamera.pose.setRequired',
-        'DRPose.model',
-        'DRPose.pose'
-        'DRPose.resetOrigin'
+        'DRCamera.hitResult',
         ]})
         d3.sendCommand('navigate.enable');
         d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});
-        d3.sendCommand('pose.requestModel')
-        d3.sendCommand('camera.pose.setRequired');
-
+        d3.sendCommand('camera.hitTest', {	'hit': true, 'x': 3,'y': 1,'z': 0})
         while True:
             packet = d3.recv()
             if packet != None:
                 event = packet['class'] + '.' + packet['key']
-                if event == 'DRCamera.pose.setRequired':
-                    print('DRCamera pose setReq',packet['data'])
-                elif event == 'DRPose.model':
-                    print('pose model',packet['data'])
-                elif event == 'DRPose.pose':
-                    print('pose',packet['data'])
-                elif event == 'DRPose.resetOrigin':
-                    print('pose reset origin',packet['data'])
+                if event == 'DRCamera.hitResult':
+                    print('camerahitResult = ---->', packet['data'], '<----')
     except KeyboardInterrupt:
         d3.close()
         print('cleaned up')
