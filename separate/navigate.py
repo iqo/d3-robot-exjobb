@@ -27,6 +27,7 @@ def navigate():
     except KeyboardInterrupt:
         d3.close()
         d3.sendCommand('navigate.cancelTarget')
+        d3.sendCommand('navigate.disable');
         d3.sendCommand('camera.disable');
         print('cleaned up')
         sys.exit(0)
