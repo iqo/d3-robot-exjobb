@@ -8,6 +8,8 @@ def navigate():
         'DRCamera.hitResult',
         'DRNavigateModule.newTarget'
         ]})
+        d3.sendCommand('screensaver.nudge');
+        d3.sendCommand('camera.enable', { 'template': 'screen' });
         d3.sendCommand('navigate.enable');
         d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});
         #d3.sendCommand('navigate.target ', {'x':0,'y':0,'angleRadians':0,'relative':False,'dock':False,'dockId':0});
@@ -24,6 +26,8 @@ def navigate():
                     print('new target = ---->', packet['data'], '<----')
     except KeyboardInterrupt:
         d3.close()
+        d3.sendCommand('navigate.cancelTarget')
+        d3.sendCommand('camera.disable');
         print('cleaned up')
         sys.exit(0)
 
