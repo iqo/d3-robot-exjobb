@@ -17,7 +17,7 @@ def navigate():
             if packet != None:
                 event = packet['class'] + '.' + packet['key']
                 if event == 'DRCamera.hitResult':
-                    #d3.sendCommand('navigate.target', {'hit': True, 'xCamera': -0.2511, 'yCamera': -0.443, 'type': 'drivable', 'x': 2.454, 'y': 1.037, 'z': 0, 'angle': 0, 'info1': '', 'info2': ''});
+                    d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': -0.2511, 'yCamera': -0.443, 'type': 'drivable', 'x': 4.186, 'y': 0.212, 'z': 0, 'angle': 0,'info1': '', 'info2': ''});
                     # d3.sendCommand('navigate.target',packet['data'])
                     print('camerahitResult = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.newTarget':
