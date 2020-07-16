@@ -11,7 +11,8 @@ def subscribeEvents():
         'DRCamera.hitResult',
         'DRNavigateModule.arrive',
         'DRNavigateModule.target',
-        'DRNavigateModule.targetState'
+        'DRNavigateModule.targetState',
+        'DRNavigateModule.newTarget'
     ]})
         while True:
             packet = d3.recv()
@@ -27,6 +28,8 @@ def subscribeEvents():
                     print('navigate arrive = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
+                elif event == 'DRNavigateModule.target':
+                    print('target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
                     print('navigate target state  = ---->', packet['data'], '<----')    
 
