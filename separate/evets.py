@@ -29,11 +29,9 @@ def subscribeEvents():
                     print('navigate arrive = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
-                #elif event == 'DRNavigateModule.target':
-                    #print('target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
                     print('navigate target state  = ---->', packet['data'], '<----')
-                elif packet['class'] == 'DRIMU':
+                elif event == 'DRIMU.calibrationLog':
                     print('IMU  = ---->', packet['data'], '<----')
 
 
