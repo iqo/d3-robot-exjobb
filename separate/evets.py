@@ -11,7 +11,7 @@ def subscribeEvents():
         'DRNavigateModule.targetState',
         'DRNavigateModule.newTarget',
         'DRPose.resetOrigin',
-        'DRPose.pose',
+        #'DRPose.pose',
         'DRPose.model'
     ]})
         while True:
@@ -28,8 +28,8 @@ def subscribeEvents():
                     print('navigate target state  = ---->', packet['data'], '<----')
                 elif event == 'DRPose.resetOrigin':
                     print('DRPose.resetOrigin  = ---->', packet['data'], '<----')
-                elif event == 'DRPose.pose':
-                    print('DRPose.pose  = ---->', packet['data'], '<----')
+                #elif event == 'DRPose.pose':
+                    #print('DRPose.pose  = ---->', packet['data'], '<----')
                 elif event == 'DRPose.model':
                     print('DRPose.model  = ---->', packet['data'], '<----')
 
