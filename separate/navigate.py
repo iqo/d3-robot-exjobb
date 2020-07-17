@@ -33,4 +33,4 @@ def navigate(xCordinate, yCordinate, xCamera= 0, yCamera = 0, zCordinate=0):
         print('cleaned up')
         sys.exit(0)
 
-#navigate(-0.589, 2.109)
+navigate(-0.589, 2.109)
