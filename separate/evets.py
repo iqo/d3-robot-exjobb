@@ -12,7 +12,8 @@ def subscribeEvents():
         'DRNavigateModule.arrive',
         'DRNavigateModule.target',
         'DRNavigateModule.targetState',
-        'DRNavigateModule.newTarget'
+        'DRNavigateModule.newTarget',
+        'DRIMU'
     ]})
         while True:
             packet = d3.recv()
@@ -28,10 +29,14 @@ def subscribeEvents():
                     print('navigate arrive = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
-                elif event == 'DRNavigateModule.target':
-                    print('target = ---->', packet['data'], '<----')
+                #elif event == 'DRNavigateModule.target':
+                    #print('target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
-                    print('navigate target state  = ---->', packet['data'], '<----')    
+                    print('navigate target state  = ---->', packet['data'], '<----')
+                elif packet['class'] == 'DRIMU':
+                    print('IMU  = ---->', packet['data'], '<----')
+
+
 
     except KeyboardInterrupt:
         d3.close()
