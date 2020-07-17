@@ -8,12 +8,8 @@ def subscribeEvents():
         d3.sendCommand('events.subscribe', { 'events': [
         'DRBase.status',
         'DRCamera.enable',
-        'DRCamera.hitResult',
-        'DRNavigateModule.arrive',
-        'DRNavigateModule.target',
         'DRNavigateModule.targetState',
-        'DRNavigateModule.newTarget',
-        'DRIMU'
+        'DRNavigateModule.newTarget'
     ]})
         while True:
             packet = d3.recv()
@@ -23,18 +19,10 @@ def subscribeEvents():
                 print(packet['data']) '''
                 if event == 'DRCamera.enable':
                     print('camera enabled')
-                elif event == 'DRCamera.hitResult':
-                    print('camerahitResult = ---->', packet['data'], '<----')
-                elif event == 'DRNavigateModule.arrive':
-                    print('navigate arrive = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
                     print('navigate target state  = ---->', packet['data'], '<----')
-                elif event == 'DRIMU.calibrationLog':
-                    print('IMU  = ---->', packet['data'], '<----')
-
-
 
     except KeyboardInterrupt:
         d3.close()
