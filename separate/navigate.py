@@ -1,7 +1,7 @@
 from SDK import double
 import sys
 
-def navigate(xCamera = 0, yCamera = 0,xCordinate, yCordinate, zCordinate=0):
+def navigate(xCordinate, yCordinate, xCamera= 0, yCamera = 0, zCordinate=0):
     d3 = double.DRDoubleSDK()
     try:
         d3.sendCommand('events.subscribe', { 'events': [
