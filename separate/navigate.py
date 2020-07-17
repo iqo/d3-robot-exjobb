@@ -1,7 +1,7 @@
 from SDK import double
 import sys
 
-def navigate(xCamera, yCamera,xCordinate, yCordinate, zCordinate=0):
+def navigate(xCamera = 0, yCamera = 0,xCordinate, yCordinate, zCordinate=0):
     d3 = double.DRDoubleSDK()
     try:
         d3.sendCommand('events.subscribe', { 'events': [
@@ -33,4 +33,4 @@ def navigate(xCamera, yCamera,xCordinate, yCordinate, zCordinate=0):
         print('cleaned up')
         sys.exit(0)
 
-navigate(-0.2511, -0.443, 2.436, 1.224)
+navigate(2.436, 1.224)
