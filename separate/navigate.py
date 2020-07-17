@@ -34,6 +34,3 @@ def navigate(xCordinate, yCordinate, xCamera= 0, yCamera = 0, zCordinate=0):
         sys.exit(0)
 
 #navigate(-0.589, 2.109)
-if __name__ == '__main__':
-    # Map command line arguments to function arguments.
-    navigate(*sys.argv[1:])
