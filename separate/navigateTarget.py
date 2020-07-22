@@ -17,9 +17,7 @@ def navigateTarget(xCordinate, yCordinate, stopAngle= 0):
             packet = d3.recv()
             if packet != None:
                 event = packet['class'] + '.' + packet['key']
-                if event == 'DRCamera.hitResult':
-                    print('camerahitResult = ---->', packet['data'], '<----')
-                elif event == 'DRNavigateModule.newTarget':
+                if event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
     except KeyboardInterrupt:
         d3.close()
