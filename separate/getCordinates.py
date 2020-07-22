@@ -9,7 +9,6 @@ def parsCordinates(jsonData):
     for n in cords:
         if n == ',':
             count = 1 + count
-    print('num of ,', count)
     split_string = cords.split(",", count)
     xInMeter = (float(split_string[2])/1000)
     yInMeter = (float(split_string[3])/1000)
