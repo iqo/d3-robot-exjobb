@@ -10,8 +10,9 @@ def navigateTarget(xCordinate, yCordinate, stopAngle= 0):
         ]})
         d3.sendCommand('navigate.enable');
         d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});
-        d3.sendCommand('navigate.target ', {'x':xCordinate,'y':yCordinate,'angleRadians':stopAngle,'relative':False,'dock':False,'dockId':0});
         d3.sendCommand('camera.hitTest', {'hit': 'true', 'x': 0.5,'y': 0.5,'z': 0, 'highlight': 'true'});
+        d3.sendCommand('navigate.target ', {'x':float(xCordinate),'y':float(yCordinate),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0});
+
         while True:
             packet = d3.recv()
             if packet != None:
