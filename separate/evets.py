@@ -8,11 +8,11 @@ def subscribeEvents():
         d3.sendCommand('events.subscribe', { 'events': [
         'DRBase.status',
         'DRCamera.enable',
-        'DRCamera.hitResult',
-        'DRNavigateModule.arrive',
-        'DRNavigateModule.target',
         'DRNavigateModule.targetState',
-        'DRNavigateModule.newTarget'
+        'DRNavigateModule.newTarget',
+        'DRPose.resetOrigin',
+        #'DRPose.pose',
+        'DRPose.model'
     ]})
         while True:
             packet = d3.recv()
@@ -22,16 +22,16 @@ def subscribeEvents():
                 print(packet['data']) '''
                 if event == 'DRCamera.enable':
                     print('camera enabled')
-                elif event == 'DRCamera.hitResult':
-                    print('camerahitResult = ---->', packet['data'], '<----')
-                elif event == 'DRNavigateModule.arrive':
-                    print('navigate arrive = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
-                elif event == 'DRNavigateModule.target':
-                    print('target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
-                    print('navigate target state  = ---->', packet['data'], '<----')    
+                    print('navigate target state  = ---->', packet['data'], '<----')
+                elif event == 'DRPose.resetOrigin':
+                    print('DRPose.resetOrigin  = ---->', packet['data'], '<----')
+                #elif event == 'DRPose.pose':
+                    #print('DRPose.pose  = ---->', packet['data'], '<----')
+                elif event == 'DRPose.model':
+                    print('DRPose.model  = ---->', packet['data'], '<----')
 
     except KeyboardInterrupt:
         d3.close()
