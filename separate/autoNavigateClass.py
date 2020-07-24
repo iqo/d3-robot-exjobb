@@ -76,18 +76,30 @@ class pars():
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0, zCordinate=0):
         try:
+            self.d3.sendCommand('events.subscribe', { 'events': [
+                'DRNavigateModule.targetState',
+                'DRNavigateModule.newTarget'
+                ]})
             self.d3.sendCommand('navigate.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '1'})
             #self.d3.sendCommand('camera.hitTest', {'hit': 'true', 'x': 0.5,'y': 0.5,'z': 0, 'highlight': 'true'})
             while True:
+                packet = self.d3.recv()
                 message = self.data_queue.get(block=True)
                 jsonMessage = json.dumps(message)
                 if "REPORT" in jsonMessage:
+                    if packet != None:
+                        event = packet['class'] + '.' + packet['key']
+                        if event == 'DRNavigateModule.newTarget':
+                            print('new target = ---->', packet['data'], '<----')
+                        elif event == 'DRNavigateModule.targetState':
+                            print('target state = ---->', packet['data'], '<----')
                     cordinate = self.parsCordinates(jsonMessage)
                     print(cordinate)
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(cordinate[0]), 'y':float(cordinate[1]), 'z': float(zCordinate), 'angle': 0,'info1': '', 'info2': ''})
-                    #time.sleep(5)
-                time.sleep(5)
+                    time.sleep(5)
+                    self.d3.sendCommand('navigate.cancelTarget')
+                #time.sleep(5)
                 self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
             self.d3.close()
