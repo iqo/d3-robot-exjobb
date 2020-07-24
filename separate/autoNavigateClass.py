@@ -88,15 +88,15 @@ class pars():
                 message = self.data_queue.get(block=True)
                 jsonMessage = json.dumps(message)
                 if "REPORT" in jsonMessage:
+                    cordinate = self.parsCordinates(jsonMessage)
+                    print(cordinate)
+                    self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(cordinate[0]), 'y':float(cordinate[1]), 'z': float(zCordinate), 'angle': 0,'info1': '', 'info2': ''})
                     if packet != None:
                         event = packet['class'] + '.' + packet['key']
                         if event == 'DRNavigateModule.newTarget':
                             print('new target = ---->', packet['data'], '<----')
                         elif event == 'DRNavigateModule.targetState':
                             print('target state = ---->', packet['data'], '<----')
-                    cordinate = self.parsCordinates(jsonMessage)
-                    print(cordinate)
-                    self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(cordinate[0]), 'y':float(cordinate[1]), 'z': float(zCordinate), 'angle': 0,'info1': '', 'info2': ''})
                     time.sleep(5)
                     self.d3.sendCommand('navigate.cancelTarget')
                 #time.sleep(5)
@@ -108,10 +108,30 @@ class pars():
             print('cleaned up')
             sys.exit(0)
 
+
+    def navigateTarget(self,stopAngle= None):
+        try:
+            self.d3.sendCommand('navigate.enable');
+            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});
+            while True:
+                message = self.data_queue.get(block=True)
+                jsonMessage = json.dumps(message) 
+                if "REPORT" in jsonMessage:
+                    cordinate = self.parsCordinates(jsonMessage)
+                    print(cordinate)                               
+                    self.d3.sendCommand('navigate.target', {'x':float(cordinate[0]),'y':float(cordinate[1]),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0});
+                    time.sleep(10)
+        except KeyboardInterrupt:
+            self.d3.close()
+            print('cleaned up')
+            sys.exit(0)
+
+
 if __name__ == '__main__':
    test = pars()
    test.init_client()
-   test.navigateHitResult()
+   #test.navigateHitResult()
+   test.navigateTarget()
    #send_data()
    #spawn thread mqtt
    #run send_data function
