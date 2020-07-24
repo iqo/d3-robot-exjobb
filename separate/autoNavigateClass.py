@@ -85,10 +85,12 @@ class pars():
                 if "REPORT" in jsonMessage:
                     cordinate = self.parsCordinates(jsonMessage)
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(cordinate[0]), 'y':float(cordinate[1]), 'z': float(zCordinate), 'angle': 0,'info1': '', 'info2': ''})
+                    #time.sleep(5)
+                time.sleep(5)
         except KeyboardInterrupt:
             self.d3.close()
             self.d3.sendCommand('navigate.cancelTarget')
-            #self.d3.sendCommand('navigate.disable')
+            self.d3.sendCommand('navigate.disable')
             print('cleaned up')
             sys.exit(0)
 
