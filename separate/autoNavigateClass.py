@@ -39,7 +39,7 @@ class pars():
     def parsCordinates(self, data):
         testParse = json.loads(data)
         cords = testParse['message']
-        print(cords)
+        #print(cords)
         count = 0
         for n in cords:
             if n == ',':
@@ -77,16 +77,17 @@ class pars():
     def navigateHitResult(self, xCamera= 0, yCamera = 0, zCordinate=0):
         try:
             self.d3.sendCommand('navigate.enable')
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
+            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '1'})
             #self.d3.sendCommand('camera.hitTest', {'hit': 'true', 'x': 0.5,'y': 0.5,'z': 0, 'highlight': 'true'})
             while True:
                 message = self.data_queue.get(block=True)
                 jsonMessage = json.dumps(message)
                 if "REPORT" in jsonMessage:
                     cordinate = self.parsCordinates(jsonMessage)
+                    print(cordinate)
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(cordinate[0]), 'y':float(cordinate[1]), 'z': float(zCordinate), 'angle': 0,'info1': '', 'info2': ''})
-                    #time.sleep(5)
-                time.sleep(5)
+                    time.sleep(5)
+                #time.sleep(5)
         except KeyboardInterrupt:
             self.d3.close()
             self.d3.sendCommand('navigate.cancelTarget')
