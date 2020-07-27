@@ -39,9 +39,7 @@ class pars():
         self.y = None
         self.x = None
         self.z = 0
-        self.state = None
-        self.timeout = time.time() + 5
-
+        
     def parsCordinates(self, data):
         testParse = json.loads(data)
         cords = testParse['message']
@@ -83,12 +81,11 @@ class pars():
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
             while True:
                 if self.x != None and self.y != None:
-                    print('current state: ', self.state)
-                    if self.state['state'] == 'Arrived': #or time.time() > self.timeout:
-                        self.d3.sendCommand('navigate.cancelTarget')
-                        self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
-                        print('x: ', self.x, 'y: ', self.y)
-                        #time.sleep(5)
+                    self.d3.sendCommand('navigate.cancelTarget')
+                    self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
+                    print('x: ', self.x, 'y: ', self.y)
+                    time.sleep(5)
+                    self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
             self.d3.close()
             print('cleaned up')
@@ -100,10 +97,9 @@ class pars():
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
             while True:
                 if self.x != None and self.y != None:
-                    if self.state['state'] == 'Arrived' or time.time() > self.timeout:
-                        self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
-                        print('x: ', self.x, 'y: ', self.y)
-                        #time.sleep(5)
+                    self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
+                    print('x: ', self.x, 'y: ', self.y)
+                    time.sleep(5)
         except KeyboardInterrupt:
             self.d3.close()
             print('cleaned up')
@@ -115,7 +111,7 @@ class pars():
             'DRNavigateModule.targetState'
         ]})
 
-            while True:
+"""             while True:
                 packet = self.d3.recv()
                 if packet != None:
                     event = packet['class'] + '.' + packet['key']
@@ -125,7 +121,7 @@ class pars():
         except KeyboardInterrupt:
             self.d3.close()
             print('cleaned up')
-            sys.exit(0)
+            sys.exit(0) """
 
 if __name__ == '__main__':
    test = pars()
