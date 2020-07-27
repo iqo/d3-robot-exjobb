@@ -40,7 +40,6 @@ class pars():
         self.x = None
         self.z = 0
         self.state = ""
-        self.timeout = time.time() + 10
 
     def parsCordinates(self, data):
         testParse = json.loads(data)
@@ -84,7 +83,7 @@ class pars():
             while True:
                 if self.x != None and self.y != None:
                     print('current state: ', self.state)
-                    if self.state['state'] == 'Arrived' or time.time() > self.timeout:
+                    if self.state['state'] == 'Arrived' or time.time() > inte(self.timeout:
                         self.d3.sendCommand('navigate.cancelTarget')
                         self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
                         print('x: ', self.x, 'y: ', self.y)
@@ -131,6 +130,7 @@ class pars():
 if __name__ == '__main__':
    test = pars()
    test.init_client()
+   test.subscribeEvents()
    test.navigateHitResult()
    #test.navigateTarget()
    #send_data()
