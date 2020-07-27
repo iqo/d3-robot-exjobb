@@ -84,8 +84,10 @@ class pars():
                     self.d3.sendCommand('navigate.cancelTarget')
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
                     print('x: ', self.x, 'y: ', self.y)
-                    time.sleep(5)
-                    self.d3.sendCommand('navigate.cancelTarget')
+                    timeout = time.time() + 10
+                    if time.time() > timeout:
+                    #time.sleep(10)
+                        self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
             self.d3.close()
             print('cleaned up')
