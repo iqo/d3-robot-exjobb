@@ -120,7 +120,6 @@ class pars():
                 if packet != None:
                     event = packet['class'] + '.' + packet['key']
                     if event == 'DRNavigateModule.targetState':
-                        
                         self.state = packet['data']
                         print('navigate target state  = ---->', self.state, '<----')
         except KeyboardInterrupt:
@@ -131,8 +130,8 @@ class pars():
 if __name__ == '__main__':
    test = pars()
    test.init_client()
-   test.subscribeEvents()
    test.navigateHitResult()
+   test.subscribeEvents()
    #test.navigateTarget()
    #send_data()
    #spawn thread mqtt
