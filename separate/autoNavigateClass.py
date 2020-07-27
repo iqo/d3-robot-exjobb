@@ -36,6 +36,10 @@ class pars():
         #Creating Queue
         self.data_queue = queue.Queue()
 
+        self.y = None
+        self.x = None
+        self.z = 0
+
     def parsCordinates(self, data):
         testParse = json.loads(data)
         cords = testParse['message']
@@ -57,6 +61,12 @@ class pars():
         mqttMsgJson = json.loads(mqttMsgString)
         #print(mqttMsgJson)
         self.data_queue.put(mqttMsgJson)
+        jsonMessage = json.dumps(mqttMsgJson)
+        if "REPORT" in jsonMessage:
+            cordinate = self.parsCordinates(jsonMessage)
+            self.x = cordinate[0]
+            self.y = cordinate[1]
+            self.z = cordinate[2]
 
     def init_client(self):
         client = mqtt.Client()
@@ -112,15 +122,15 @@ class pars():
     def navigateTarget(self,stopAngle= None):
         try:
             self.d3.sendCommand('navigate.enable');
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});
+            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
             while True:
-                message = self.data_queue.get(block=True)
-                jsonMessage = json.dumps(message) 
-                if "REPORT" in jsonMessage:
-                    cordinate = self.parsCordinates(jsonMessage)
-                    print(cordinate)                               
-                    self.d3.sendCommand('navigate.target', {'x':float(cordinate[0]),'y':float(cordinate[1]),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0});
-                    time.sleep(10)
+                # message = self.data_queue.get(block=True)
+                # jsonMessage = json.dumps(message) 
+                # if "REPORT" in jsonMessage:
+                #     cordinate = self.parsCordinates(jsonMessage)
+                if self.x != None and self.y != None:
+                    self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0});
+                    time.sleep(5)
         except KeyboardInterrupt:
             self.d3.close()
             print('cleaned up')
