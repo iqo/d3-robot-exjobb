@@ -39,7 +39,7 @@ class pars():
         self.y = None
         self.x = None
         self.z = 0
-        self.state = ""
+        self.state = None
         self.timeout = time.time() + 5
 
     def parsCordinates(self, data):
