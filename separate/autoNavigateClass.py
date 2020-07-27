@@ -39,7 +39,7 @@ class pars():
         self.y = None
         self.x = None
         self.z = 0
-        
+
     def parsCordinates(self, data):
         testParse = json.loads(data)
         cords = testParse['message']
@@ -105,29 +105,10 @@ class pars():
             print('cleaned up')
             sys.exit(0)
 
-    def subscribeEvents(self):
-        try:
-            self.d3.sendCommand('events.subscribe', { 'events': [
-            'DRNavigateModule.targetState'
-        ]})
-
-"""             while True:
-                packet = self.d3.recv()
-                if packet != None:
-                    event = packet['class'] + '.' + packet['key']
-                    if event == 'DRNavigateModule.targetState':
-                        self.state = packet['data']
-                        print('navigate target state  = ---->', self.state, '<----')
-        except KeyboardInterrupt:
-            self.d3.close()
-            print('cleaned up')
-            sys.exit(0) """
-
 if __name__ == '__main__':
    test = pars()
    test.init_client()
    test.navigateHitResult()
-   test.subscribeEvents()
    #test.navigateTarget()
    #send_data()
    #spawn thread mqtt
