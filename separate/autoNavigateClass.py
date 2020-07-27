@@ -119,7 +119,7 @@ class pars():
             sys.exit(0)
 
 
-    def navigateTarget(self,stopAngle= None):
+    def navigateTarget(self,stopAngle= 0):
         try:
             self.d3.sendCommand('navigate.enable');
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
