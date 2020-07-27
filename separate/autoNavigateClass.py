@@ -75,61 +75,28 @@ class pars():
         client.loop_start()
         client.subscribe("ltu-system/#")
 
-    #def testtest(self):
-        #while True:
-            #message = self.data_queue.get(block=True)
-            #jsonMessage = json.dumps(message)
-            #if "BEACON" in jsonMessage:
-            #if "REPORT" in jsonMessage:
-                #self.parsCordinates(jsonMessage)
-                #print(cord)
-
-    def navigateHitResult(self, xCamera= 0, yCamera = 0, zCordinate=0):
+    def navigateHitResult(self, xCamera= 0, yCamera = 0):
         try:
-            self.d3.sendCommand('events.subscribe', { 'events': [
-                'DRNavigateModule.targetState',
-                'DRNavigateModule.newTarget'
-                ]})
-            self.d3.sendCommand('navigate.enable')
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '1'})
-            #self.d3.sendCommand('camera.hitTest', {'hit': 'true', 'x': 0.5,'y': 0.5,'z': 0, 'highlight': 'true'})
+            self.d3.sendCommand('navigate.enable');
+            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
             while True:
-                packet = self.d3.recv()
-                message = self.data_queue.get(block=True)
-                jsonMessage = json.dumps(message)
-                if "REPORT" in jsonMessage:
-                    cordinate = self.parsCordinates(jsonMessage)
-                    print(cordinate)
-                    self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(cordinate[0]), 'y':float(cordinate[1]), 'z': float(zCordinate), 'angle': 0,'info1': '', 'info2': ''})
-                    if packet != None:
-                        event = packet['class'] + '.' + packet['key']
-                        if event == 'DRNavigateModule.newTarget':
-                            print('new target = ---->', packet['data'], '<----')
-                        elif event == 'DRNavigateModule.targetState':
-                            print('target state = ---->', packet['data'], '<----')
+                if self.x != None and self.y != None:
+                    self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
+                    print('x: ', self.x, 'y: ', self.y)
                     time.sleep(5)
-                    self.d3.sendCommand('navigate.cancelTarget')
-                #time.sleep(5)
-                self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
             self.d3.close()
-            #self.d3.sendCommand('navigate.cancelTarget')
-            #self.d3.sendCommand('navigate.disable')
             print('cleaned up')
             sys.exit(0)
-
 
     def navigateTarget(self,stopAngle= 0):
         try:
             self.d3.sendCommand('navigate.enable');
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
             while True:
-                # message = self.data_queue.get(block=True)
-                # jsonMessage = json.dumps(message) 
-                # if "REPORT" in jsonMessage:
-                #     cordinate = self.parsCordinates(jsonMessage)
                 if self.x != None and self.y != None:
-                    self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0});
+                    self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
+                    print('x: ', self.x, 'y: ', self.y)
                     time.sleep(5)
         except KeyboardInterrupt:
             self.d3.close()
@@ -140,8 +107,8 @@ class pars():
 if __name__ == '__main__':
    test = pars()
    test.init_client()
-   #test.navigateHitResult()
-   test.navigateTarget()
+   test.navigateHitResult()
+   #test.navigateTarget()
    #send_data()
    #spawn thread mqtt
    #run send_data function

@@ -8,7 +8,8 @@ def subscribeEvents():
         d3.sendCommand('events.subscribe', { 'events': [
         'DRMics.status',
         'DRMics.setBoostError',
-        'DRNavigateModule.targetState'
+        'DRNavigateModule.targetState',
+        'DRNavigateModule.newTarget'
 
     ]})
         d3.sendCommand('mics.setBoost',{'percent':0.25})
