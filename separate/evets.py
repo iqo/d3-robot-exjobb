@@ -6,32 +6,27 @@ def subscribeEvents():
     d3 = double.DRDoubleSDK()
     try:
         d3.sendCommand('events.subscribe', { 'events': [
-        'DRBase.status',
-        'DRCamera.enable',
-        'DRNavigateModule.targetState',
-        'DRNavigateModule.newTarget',
-        'DRPose.resetOrigin',
-        #'DRPose.pose',
-        'DRPose.model'
+        'DRMics.status',
+        'DRMics.setBoostError',
+        'DRNavigateModule.targetState'
+
     ]})
+        d3.sendCommand('mics.setBoost',{'percent':0.25})
+        d3.sendCommand('mics.requestStatus')
+
+
         while True:
             packet = d3.recv()
             if packet != None:
                 event = packet['class'] + '.' + packet['key']
-                ''' if event == 'DRBase.status':
-                print(packet['data']) '''
-                if event == 'DRCamera.enable':
-                    print('camera enabled')
-                elif event == 'DRNavigateModule.newTarget':
+                if event == 'DRNavigateModule.newTarget':
                     print('new target = ---->', packet['data'], '<----')
                 elif event == 'DRNavigateModule.targetState':
                     print('navigate target state  = ---->', packet['data'], '<----')
-                elif event == 'DRPose.resetOrigin':
-                    print('DRPose.resetOrigin  = ---->', packet['data'], '<----')
-                #elif event == 'DRPose.pose':
-                    #print('DRPose.pose  = ---->', packet['data'], '<----')
-                elif event == 'DRPose.model':
-                    print('DRPose.model  = ---->', packet['data'], '<----')
+                elif event == 'DRMics.status':
+                    print('DRMics.status  = ---->', packet['data'], '<----')
+                elif event == 'DRMics.setBoostError':
+                    print('DRMics.setBoostError  = ---->', packet['data'], '<----')
 
     except KeyboardInterrupt:
         d3.close()
