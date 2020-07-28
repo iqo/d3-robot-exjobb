@@ -79,7 +79,6 @@ class Navigate():
             self.d3.sendCommand('navigate.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})     
             if self.x != None and self.y != None:
-                self.d3.sendCommand('navigate.cancelTarget')
                 self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
                 print('x: ', self.x, 'y: ', self.y)
                 #time.sleep(10)
