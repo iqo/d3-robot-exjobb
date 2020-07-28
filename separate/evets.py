@@ -7,6 +7,7 @@ def subscribeEvents():
     try:
         d3.sendCommand('events.subscribe', { 'events': [
         'DRGUI.accessoryWebView.message.to',
+        'DRGUI.accessoryWebView.message.from',
         'DRNavigateModule.targetState',
         'DRNavigateModule.newTarget'
 
@@ -24,8 +25,8 @@ def subscribeEvents():
                     print('navigate target state  = ---->', packet['data'], '<----')
                 elif event == 'DRGUI.accessoryWebView.message.to':
                     print('accessoryWebView.message.to = ---->', packet['data'], '<----')
-                #elif event == 'DRWebRTC.event':
-                    #print('DRWebRTC.event  = ---->', packet['data'], '<----')
+                elif event == 'DRGUI.accessoryWebView.message.from':
+                    print('DRGUI.accessoryWebView.message.from  = ---->', packet['data'], '<----')
 
     except KeyboardInterrupt:
         d3.close()
