@@ -27,8 +27,8 @@ def subscribeEvents():
                     print('navigate target state  = ---->', packet['data'], '<----')
                 elif packet['class'] == 'DRMics':
                     print('DRMics = ---->', packet['data'], '<----')
-                elif event == 'DRGUI.accessoryWebView.message.from':
-                    print('DRGUI.accessoryWebView.message.from  = ---->', packet['data'], '<----')
+                elif event == 'DRGUI.accessoryWebView.message.to':
+                    print('DRGUI.accessoryWebView.message.to  = ---->', packet['data'], '<----')
 
     except KeyboardInterrupt:
         d3.close()
