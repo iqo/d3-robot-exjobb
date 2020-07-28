@@ -13,7 +13,8 @@ def subscribeEvents():
 
     ]})
         #d3.sendCommand('mics.setBoost',{'percent':0.25})
-        d3.sendCommand('accessoryWebView.message.from',{'mics':'mics'})
+        d3.sendCommand('accessoryWebView.message.from',{'mic':'deafult'})
+        d3.sendCommand('accessoryWebView.message.from',{'mic':'deafult'})
         #d3.sendCommand()
         while True:
             packet = d3.recv()
