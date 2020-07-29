@@ -6,7 +6,6 @@ import navigate
 
 # this is called from the background thread
 def callback(recognizer, audio):
-    drive = navigate.Navigate()
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
         # for testing purposes, we're just using the default API key
@@ -26,7 +25,7 @@ def callback(recognizer, audio):
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
-
+drive = navigate.Navigate()
 r = sr.Recognizer()
 m = sr.Microphone(device_index=29)
 with m as source:
