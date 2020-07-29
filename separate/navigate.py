@@ -94,16 +94,16 @@ class Navigate():
             #sys.exit(0)
 
     def cancelNavigation(self):
-        #try:
-        self.d3.sendCommand('navigate.cancelTarget')
-        self.d3.sendCommand('depth.floor.disable')
-        self.d3.sendCommand('depth.front.disable')
-        self.d3.sendCommand('navigate.disable')
-        self.d3.close()
-        #except KeyboardInterrupt:
-            #self.d3.close()
-            #print('cleaned up')
-            #sys.exit(0)
+        try:
+            self.d3.sendCommand('navigate.cancelTarget')
+            self.d3.sendCommand('depth.floor.disable')
+            self.d3.sendCommand('depth.front.disable')
+            self.d3.sendCommand('navigate.disable')
+            self.d3.close()
+        except KeyboardInterrupt:
+            self.d3.close()
+            print('cleaned up')
+            sys.exit(0)
 
     def navigateTarget(self,stopAngle= 0):
         try:
@@ -112,7 +112,8 @@ class Navigate():
             client.connect(self.broker_url, self.broker_port)
             client.loop_start()
             client.subscribe("ltu-system/#")
-            time.sleep(5)
+            time.sleep(10)
+            client.loop_stop()
             self.d3.sendCommand('navigate.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
             self.d3.sendCommand('depth.floor.enable')
@@ -124,7 +125,6 @@ class Navigate():
             #self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
-                client.loop_stop()
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')
