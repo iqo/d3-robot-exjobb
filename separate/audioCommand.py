@@ -3,8 +3,8 @@ import speech_recognition as sr
 import navigate
 
 
-#navigate = navigate.Navigate()
-#navigate.init_client()
+navigate = navigate.Navigate()
+navigate.init_client()
 # this is called from the background thread
 def callback(recognizer, audio):
     # received audio data, now we'll recognize it using Google Speech Recognition
@@ -16,10 +16,10 @@ def callback(recognizer, audio):
         print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
         if test == "start":
             print('start start')
-            #navigate.navigateHitResult()
+            navigate.navigateHitResult()
         elif test == "stop":
             print('stop stop')
-            #navigate.cancelNavigation()
+            navigate.cancelNavigation()
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
     except sr.RequestError as e:
