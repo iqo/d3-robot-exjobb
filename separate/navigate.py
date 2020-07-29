@@ -94,6 +94,10 @@ class Navigate():
     def cancelNavigation(self):
         #try:
         self.d3.sendCommand('navigate.cancelTarget')
+        self.d3.sendCommand('depth.floor.disable')
+        self.d3.sendCommand('depth.front.disable')
+        self.d3.sendCommand('navigate.disable')
+        self.d3.close()
         #except KeyboardInterrupt:
             #self.d3.close()
             #print('cleaned up')
