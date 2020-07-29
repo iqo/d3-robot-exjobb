@@ -7,7 +7,6 @@ import navigate
 # this is called from the background thread
 def callback(recognizer, audio):
     drive = navigate.Navigate()
-    drive.init_client()
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
         # for testing purposes, we're just using the default API key
@@ -15,7 +14,8 @@ def callback(recognizer, audio):
         # instead of `r.recognize_google(audio)`
         test = recognizer.recognize_google(audio)
         print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
-        if test == "go":
+        if test == "test":
+            drive.init_client()
             print('start start')
             drive.navigateTarget()
         elif test == "stop":
