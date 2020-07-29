@@ -60,7 +60,7 @@ class Navigate():
     def on_message(self, client, userdata, message):
         mqttMsgString = message.payload.decode()
         mqttMsgJson = json.loads(mqttMsgString)
-        #print(mqttMsgJson)
+        print(mqttMsgJson)
         #self.data_queue.put(mqttMsgJson)
         jsonMessage = json.dumps(mqttMsgJson)
         if "REPORT" in jsonMessage:
