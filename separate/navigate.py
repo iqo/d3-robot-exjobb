@@ -75,21 +75,21 @@ class Navigate():
         client.subscribe("ltu-system/#")
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
-        try:
-            self.d3.sendCommand('navigate.enable')
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
-            self.d3.sendCommand('depth.floor.enable')
-            self.d3.sendCommand('depth.front.enable')     
-            if self.x != None and self.y != None:
+        #try:
+        self.d3.sendCommand('navigate.enable')
+        self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
+        self.d3.sendCommand('depth.floor.enable')
+        self.d3.sendCommand('depth.front.enable')     
+        if self.x != None and self.y != None:
                 #self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
-                self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(0), 'y':float(0), 'z': float(0), 'angle': 0,'info1': '', 'info2': ''})
-                print('x: ', self.x, 'y: ', self.y)
+            self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(0), 'y':float(0), 'z': float(0), 'angle': 0,'info1': '', 'info2': ''})
+            print('x: ', self.x, 'y: ', self.y)
                 #time.sleep(10)
                 #self.d3.sendCommand('navigate.cancelTarget')
-        except KeyboardInterrupt:
-            self.d3.close()
-            print('cleaned up')
-            sys.exit(0)
+        #except KeyboardInterrupt:
+            #self.d3.close()
+            #print('cleaned up')
+            #sys.exit(0)
 
     def cancelNavigation(self):
         try:
