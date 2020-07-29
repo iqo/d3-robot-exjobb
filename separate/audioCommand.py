@@ -15,7 +15,7 @@ def callback(recognizer, audio):
         # instead of `r.recognize_google(audio)`
         test = recognizer.recognize_google(audio)
         print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
-        if test == "start":
+        if test == "go":
             print('start start')
             drive.navigateTarget()
         elif test == "stop":
