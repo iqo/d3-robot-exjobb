@@ -104,21 +104,22 @@ class Navigate():
             #sys.exit(0)
 
     def navigateTarget(self,stopAngle= 0):
-        #try:
-            #self.d3.sendCommand('navigate.enable')
-            #self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
-            #self.d3.sendCommand('depth.floor.enable')
-            #self.d3.sendCommand('epth.front.enable')
-        if self.x != None and self.y != None:
+        try:
             self.d3.sendCommand('navigate.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
             self.d3.sendCommand('depth.floor.enable')
             self.d3.sendCommand('depth.front.enable')
-            self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
-            print('x: ', self.x, 'y: ', self.y)
-        #except KeyboardInterrupt:
+            time.sleep(5)
+            if self.x != None and self.y != None:
+            #self.d3.sendCommand('navigate.enable')
+            #self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
+            #self.d3.sendCommand('depth.floor.enable')
+            #self.d3.sendCommand('depth.front.enable')
+                self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
+                print('x: ', self.x, 'y: ', self.y)
+        except KeyboardInterrupt:
             #self.d3.close()
-            #print('cleaned up')
+            print('cleaned up')
             #sys.exit(0)
 
 #if __name__ == '__main__':
