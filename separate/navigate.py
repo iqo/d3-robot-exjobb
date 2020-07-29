@@ -38,6 +38,8 @@ class Navigate():
         self.y = None
         self.x = None
         self.z = 0
+        self.client = mqtt.Client()
+
 
     def parsCordinates(self, data):
         testParse = json.loads(data)
@@ -68,11 +70,11 @@ class Navigate():
             self.z = cordinate[2]
 
     def init_client(self):
-        client = mqtt.Client()
-        client.on_message = self.on_message
-        client.connect(self.broker_url, self.broker_port)
-        client.loop_start()
-        client.subscribe("ltu-system/#")
+        #client = mqtt.Client()
+        self.client.on_message = self.on_message
+        self.client.connect(self.broker_url, self.broker_port)
+        self.client.loop_start()
+        self.client.subscribe("ltu-system/#")
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
         #try:
@@ -117,6 +119,7 @@ class Navigate():
             #self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
+                self.client.loop_stop()
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')
