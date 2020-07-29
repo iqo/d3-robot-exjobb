@@ -3,10 +3,11 @@ import speech_recognition as sr
 import navigate
 
 
-navigate = navigate.Navigate()
-navigate.init_client()
+
 # this is called from the background thread
 def callback(recognizer, audio):
+    navigate = navigate.Navigate()
+    navigate.init_client()
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
         # for testing purposes, we're just using the default API key
