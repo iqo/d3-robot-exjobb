@@ -38,7 +38,7 @@ class Navigate():
         self.y = None
         self.x = None
         self.z = 0
-        self.client = mqtt.Client()
+        #self.client = mqtt.Client()
 
 
     def parsCordinates(self, data):
@@ -69,12 +69,12 @@ class Navigate():
             self.y = cordinate[1]
             self.z = cordinate[2]
 
-    def init_client(self):
+    ''' def init_client(self):
         #client = mqtt.Client()
         self.client.on_message = self.on_message
         self.client.connect(self.broker_url, self.broker_port)
         self.client.loop_start()
-        self.client.subscribe("ltu-system/#")
+        self.client.subscribe("ltu-system/#") '''
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
         #try:
@@ -107,11 +107,16 @@ class Navigate():
 
     def navigateTarget(self,stopAngle= 0):
         try:
+            client = mqtt.Client()
+            client.on_message = self.on_message
+            client.connect(self.broker_url, self.broker_port)
+            client.loop_start()
+            client.subscribe("ltu-system/#")
+            time.sleep(5)
             self.d3.sendCommand('navigate.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
             self.d3.sendCommand('depth.floor.enable')
             self.d3.sendCommand('depth.front.enable')
-            time.sleep(5)
             if self.x != None and self.y != None:
             #self.d3.sendCommand('navigate.enable')
             #self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
@@ -119,7 +124,7 @@ class Navigate():
             #self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
-                self.client.loop_stop()
+                client.loop_stop()
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')
