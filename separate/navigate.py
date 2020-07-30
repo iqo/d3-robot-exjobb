@@ -69,12 +69,16 @@ class Navigate():
             self.y = cordinate[1]
             self.z = cordinate[2]
 
-    ''' def init_client(self):
-        #client = mqtt.Client()
-        self.client.on_message = self.on_message
-        self.client.connect(self.broker_url, self.broker_port)
-        self.client.loop_start()
-        self.client.subscribe("ltu-system/#") '''
+    def init_client(self):
+        client = mqtt.Client()
+        client.on_message = self.on_message
+        client.connect(self.broker_url, self.broker_port)
+        client.loop_start()
+        client.subscribe("ltu-system/#")
+        time.sleep(5)
+        client.loop_stop()
+        return
+
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
         #try:
@@ -107,24 +111,14 @@ class Navigate():
 
     def navigateTarget(self,stopAngle= 0):
         try:
-            client = mqtt.Client()
-            client.on_message = self.on_message
-            client.connect(self.broker_url, self.broker_port)
-            client.loop_start()
-            client.subscribe("ltu-system/#")
-            time.sleep(10)
-            client.loop_stop()
             self.d3.sendCommand('navigate.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
             self.d3.sendCommand('depth.floor.enable')
             self.d3.sendCommand('depth.front.enable')
             if self.x != None and self.y != None:
-            #self.d3.sendCommand('navigate.enable')
-            #self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
-            #self.d3.sendCommand('depth.floor.enable')
-            #self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
+            return
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')
