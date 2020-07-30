@@ -111,11 +111,12 @@ class Navigate():
 
     def navigateTarget(self,stopAngle= 0):
         try:
-            self.d3.sendCommand('navigate.enable')
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
-            self.d3.sendCommand('depth.floor.enable')
-            self.d3.sendCommand('depth.front.enable')
+
             if self.x != None and self.y != None:
+                self.d3.sendCommand('navigate.enable')
+                self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
+                self.d3.sendCommand('depth.floor.enable')
+                self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
             return
