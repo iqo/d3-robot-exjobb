@@ -41,15 +41,24 @@ import navigate
 
 # do some more unrelated things
 #while True: time.sleep(0.1)  # we're not listening anymore, even though the background thread might still be running for a second or two while cleaning up and stopping
-
+drive = navigate.Navigate()
 while True:
     r = sr.Recognizer()
     m = sr.Microphone(device_index=29)
     with m as source:
-        r.adjust_for_ambient_noise(source,duration=5)
+        r.adjust_for_ambient_noise(source,duration=1)
         print("Say Something")
         audio=r.listen(source)
     try:    
-        print(r.recognize_google(audio),"\n")
+        inputAudio = r.recognize_google(audio)
+        print("did you say: ", r.recognize_google(audio),"\n")
+        if inputAudio == "test":
+            print('start start')
+            drive.init_client()
+            drive.navigateTarget()
+            print('driving')
+        #print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
+    except sr.RequestError as e:
+        print("Could not request results from Google Speech Recognition service; {0}".format(e))
