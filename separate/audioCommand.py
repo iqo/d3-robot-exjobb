@@ -50,7 +50,6 @@ d3.sendCommand('events.subscribe', { 'events': [
 'DRNavigateModule.targetState'
     ]})
 while True:
-    packet = d3.recv()
     r = sr.Recognizer()
     m = sr.Microphone(device_index=29)
     with m as source:
@@ -65,10 +64,13 @@ while True:
             drive.init_client()
             drive.navigateTarget()
             print('driving')
-            if packet != None:
-                event = packet['class'] + '.' + packet['key']
-                if event == 'DRNavigateModule.newTarget':
-                    print('target state = ---->', packet['data'], '<----')
+            while True:
+                packet = d3.recv()
+                if packet != None:
+                    event = packet['class'] + '.' + packet['key']
+                    if event == 'DRNavigateModule.targetState':
+                        print('target state = ---->', packet['data'], '<----')
+                        break
         #print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
