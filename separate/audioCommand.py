@@ -71,6 +71,8 @@ while True:
                     if event == 'DRNavigateModule.targetState':
                         print('target state = ---->', packet['data'], '<----')
                         break
+                else:
+                    break
         #print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
