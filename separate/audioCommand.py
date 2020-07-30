@@ -47,7 +47,7 @@ while True:
     m = sr.Microphone(device_index=29)
     with m as source:
         print("Say Something")
-        audio=r.listen(source)
+        audio=r.listen(source,duration=5)
     try:    
         print(r.recognize_google(audio),"\n")
     except sr.UnknownValueError:
