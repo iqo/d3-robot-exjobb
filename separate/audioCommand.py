@@ -1,6 +1,9 @@
 import time
 import speech_recognition as sr
 import navigate
+from SDK import double
+import sys
+
 
 
 
@@ -41,8 +44,13 @@ import navigate
 
 # do some more unrelated things
 #while True: time.sleep(0.1)  # we're not listening anymore, even though the background thread might still be running for a second or two while cleaning up and stopping
+d3 = double.DRDoubleSDK()
 drive = navigate.Navigate()
+d3.sendCommand('events.subscribe', { 'events': [
+'DRNavigateModule.targetState'
+    ]})
 while True:
+    packet = d3.recv()
     r = sr.Recognizer()
     m = sr.Microphone(device_index=29)
     with m as source:
@@ -57,6 +65,10 @@ while True:
             drive.init_client()
             drive.navigateTarget()
             print('driving')
+            if packet != None:
+                event = packet['class'] + '.' + packet['key']
+                if event == 'DRNavigateModule.newTarget':
+                    print('target state = ---->', packet['data'], '<----')
         #print("Google Speech Recognition thinks you said " + recognizer.recognize_google(audio))
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")

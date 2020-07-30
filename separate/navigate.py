@@ -119,6 +119,8 @@ class Navigate():
                 self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
+                self.x = None
+                self.y = None
             return
         except KeyboardInterrupt:
             #self.d3.close()
