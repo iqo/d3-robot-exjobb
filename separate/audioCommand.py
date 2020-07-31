@@ -20,6 +20,7 @@ while True:
             drive.init_client()
             drive.navigateHitResult()
         elif inputAudio == "start":
+            autoDrive.init_client()
             autoDrive.navigateHitResult()
 
     except sr.UnknownValueError:
