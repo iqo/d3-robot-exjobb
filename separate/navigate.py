@@ -60,7 +60,7 @@ class Navigate():
     def on_message(self, client, userdata, message):
         mqttMsgString = message.payload.decode()
         mqttMsgJson = json.loads(mqttMsgString)
-        print(mqttMsgJson)
+        #print(mqttMsgJson)
         #self.data_queue.put(mqttMsgJson)
         jsonMessage = json.dumps(mqttMsgJson)
         if "REPORT" in jsonMessage:
@@ -75,27 +75,25 @@ class Navigate():
         client.connect(self.broker_url, self.broker_port)
         client.loop_start()
         client.subscribe("ltu-system/#")
-        time.sleep(5)
+        time.sleep(10)
         client.loop_stop()
-        return
 
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
-        #try:
-        if self.x != None and self.y != None:
-            self.d3.sendCommand('navigate.enable')
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
-            self.d3.sendCommand('depth.floor.enable')
-            self.d3.sendCommand('depth.front.enable')     
-            self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
-            #self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(0), 'y':float(0), 'z': float(0), 'angle': 0,'info1': '', 'info2': ''})
-            print('x: ', self.x, 'y: ', self.y)
-                #time.sleep(10)
-                #self.d3.sendCommand('navigate.cancelTarget')
-        #except KeyboardInterrupt:
-            #self.d3.close()
-            #print('cleaned up')
-            #sys.exit(0)
+        try:
+            if self.x != None and self.y != None:
+                self.d3.sendCommand('navigate.enable')
+                self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
+                self.d3.sendCommand('depth.floor.enable')
+                self.d3.sendCommand('depth.front.enable')
+                time.sleep(2)     
+                self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
+                #print('x: ', self.x, 'y: ', self.y)
+                print('driving to: ', self.x, self.y, self.z)
+        except KeyboardInterrupt:
+            self.d3.close()
+            print('cleaned up')
+            sys.exit(0)
 
     def cancelNavigation(self):
         try:
@@ -111,7 +109,6 @@ class Navigate():
 
     def navigateTarget(self,stopAngle= 0):
         try:
-
             if self.x != None and self.y != None:
                 self.d3.sendCommand('navigate.enable')
                 self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
@@ -119,9 +116,6 @@ class Navigate():
                 self.d3.sendCommand('depth.front.enable')
                 self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', self.x, 'y: ', self.y)
-                self.x = None
-                self.y = None
-            return
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')

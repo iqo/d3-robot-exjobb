@@ -16,7 +16,7 @@ from SDK import double
 
 
 #testData = '{"host":"WFGATEWAY-3ABFF8D01EFF","message":"REPORT:42478B1A6B8CBA16,0.2.7,-19,207,3515,28,-30,10,4.10,-78.86,858027*6707","source":"03FF5C0A2BFA3A9B","time":"2020-07-22T13:29:05.838339518Z","type":"widefind_message"}'
-class pars():
+class AutoNavigate():
     def __init__(self):
         #d3 sdk
         self.d3 = double.DRDoubleSDK()
@@ -54,8 +54,6 @@ class pars():
         zInMeter = (float(split_string[4])/1000)
         return xInMeter, yInMeter, zInMeter
 
-
-
     def on_message(self, client, userdata, message):
         mqttMsgString = message.payload.decode()
         mqttMsgJson = json.loads(mqttMsgString)
@@ -77,16 +75,21 @@ class pars():
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
         try:
-            self.d3.sendCommand('navigate.enable');
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
+            self.d3.sendCommand('navigate.enable')
+            self.d3.sendCommand('depth.floor.enable')
+            self.d3.sendCommand('depth.front.enable')
+            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})     
             while True:
                 if self.x != None and self.y != None:
                     self.d3.sendCommand('navigate.cancelTarget')
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
                     print('x: ', self.x, 'y: ', self.y)
                     time.sleep(10)
-                    self.d3.sendCommand('navigate.cancelTarget')
+                    #self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
+            self.d3.sendCommand('navigate.disable')
+            self.d3.sendCommand('depth.floor.disable')
+            self.d3.sendCommand('depth.front.disable')
             self.d3.close()
             print('cleaned up')
             sys.exit(0)
@@ -94,7 +97,7 @@ class pars():
     def navigateTarget(self,stopAngle= 0):
         try:
             self.d3.sendCommand('navigate.enable');
-            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'});     
+            self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})     
             while True:
                 if self.x != None and self.y != None:
                     self.d3.sendCommand('navigate.target', {'x':float(self.x),'y':float(self.y),'angleRadians':float(stopAngle),'relative':False,'dock':False,'dockId':0})
@@ -105,10 +108,10 @@ class pars():
             print('cleaned up')
             sys.exit(0)
 
-if __name__ == '__main__':
-   test = pars()
-   test.init_client()
-   test.navigateHitResult()
+#if __name__ == '__main__':
+   #test = AutoNavigate()
+   #test.init_client()
+   #test.navigateHitResult()
    #test.navigateTarget()
    #send_data()
    #spawn thread mqtt
