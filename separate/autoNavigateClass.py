@@ -80,11 +80,19 @@ class AutoNavigate():
             self.d3.sendCommand('depth.front.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})     
             while True:
+                packet = self.d3.recv()
                 if self.x != None and self.y != None:
                     self.d3.sendCommand('navigate.cancelTarget')
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
                     print('x: ', self.x, 'y: ', self.y)
                     time.sleep(10)
+                    if packet != None:
+                        event = packet['class'] + '.' + packet['key']
+                        if event == 'DRNavigateModule.targetState':
+                            print('navigate target state  = ---->', packet['data'], '<----')
+                            if event['state'] == 'Arrived':
+                                break
+
                     #self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
             self.d3.sendCommand('navigate.disable')
