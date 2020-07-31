@@ -34,11 +34,12 @@ class AutoNavigate():
         self.port = self.config["connection"]["entrypoint_port"]
 
         #Creating Queue
-        self.data_queue = queue.Queue()
+        #self.data_queue = queue.Queue()
 
         self.y = None
         self.x = None
         self.z = 0
+        self.client = mqtt.Client()
 
     def parsCordinates(self, data):
         testParse = json.loads(data)
@@ -58,7 +59,7 @@ class AutoNavigate():
         mqttMsgString = message.payload.decode()
         mqttMsgJson = json.loads(mqttMsgString)
         #print(mqttMsgJson)
-        self.data_queue.put(mqttMsgJson)
+        #self.data_queue.put(mqttMsgJson)
         jsonMessage = json.dumps(mqttMsgJson)
         if "REPORT" in jsonMessage:
             cordinate = self.parsCordinates(jsonMessage)
@@ -67,11 +68,11 @@ class AutoNavigate():
             self.z = cordinate[2]
 
     def init_client(self):
-        client = mqtt.Client()
-        client.on_message = self.on_message
-        client.connect(self.broker_url, self.broker_port)
-        client.loop_start()
-        client.subscribe("ltu-system/#")
+        #client = mqtt.Client()
+        self.client.on_message = self.on_message
+        self.client.connect(self.broker_url, self.broker_port)
+        self.client.loop_start()
+        self.client.subscribe("ltu-system/#")
 
     def navigateHitResult(self, xCamera= 0, yCamera = 0):
         try:
@@ -91,6 +92,7 @@ class AutoNavigate():
                         if event == 'DRNavigateModule.targetState':
                             print('navigate target state  = ---->', packet['data'], '<----')
                             if event['state'] == 'Arrived':
+                                self.client.loop_stop()
                                 break
 
                     #self.d3.sendCommand('navigate.cancelTarget')
