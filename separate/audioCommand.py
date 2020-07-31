@@ -16,10 +16,11 @@ while True:
         inputAudio = r.recognize_google(audio)
         print("did you say: ", r.recognize_google(audio),"\n")
         if inputAudio == "test":
-            print('start start')
+            print('single navigation')
             drive.init_client()
             drive.navigateHitResult()
         elif inputAudio == "start":
+            print('autoNavigation')
             autoDrive.init_client()
             autoDrive.navigateHitResult()
 

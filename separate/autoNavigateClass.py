@@ -44,7 +44,6 @@ class AutoNavigate():
     def parsCordinates(self, data):
         testParse = json.loads(data)
         cords = testParse['message']
-        #print(cords)
         count = 0
         for n in cords:
             if n == ',':
@@ -81,25 +80,16 @@ class AutoNavigate():
             self.d3.sendCommand('depth.front.enable')
             self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})     
             while True:
-                packet = self.d3.recv()
                 if self.x != None and self.y != None:
                     self.d3.sendCommand('navigate.cancelTarget')
                     self.d3.sendCommand('navigate.hitResult', {'hit': True,'xCamera': float(xCamera), 'yCamera': float(yCamera), 'type': 'drivable', 'x': float(self.x), 'y':float(self.y), 'z': float(self.z), 'angle': 0,'info1': '', 'info2': ''})
                     print('x: ', self.x, 'y: ', self.y)
                     time.sleep(10)
-                    if packet != None:
-                        event = packet['class'] + '.' + packet['key']
-                        if event == 'DRNavigateModule.targetState':
-                            print('navigate target state  = ---->', packet['data'], '<----')
-                            if event['state'] == 'Arrived':
-                                self.client.loop_stop()
-                                break
-
-                    #self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
             self.d3.sendCommand('navigate.disable')
             self.d3.sendCommand('depth.floor.disable')
             self.d3.sendCommand('depth.front.disable')
+            self.client.loop_stop()
             self.d3.close()
             print('cleaned up')
             sys.exit(0)
