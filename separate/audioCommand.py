@@ -9,7 +9,7 @@ while True:
     r = sr.Recognizer()
     m = sr.Microphone(device_index=29)
     with m as source:
-        r.adjust_for_ambient_noise(source,duration=5)
+        r.adjust_for_ambient_noise(source,duration=1)
         print("Say Something")
         audio=r.listen(source)
     try:    
