@@ -114,10 +114,10 @@ class RealtiveNavigation():
                 vector1 = [self.robotXCordinate, self.robotYCordinate, self.robotZCordinate]
                 vector2 = [self.transmiterXCordinate, self.transmiterYCordinate, self.transmiterZCordinate]
                 radianAngle = self.angleBetween(vector1, vector2)
-                degreeAngle = self.degree(radianAngle)
+                #degreeAngle = self.degree(radianAngle)
                 targetX = float(self.transmiteryCordinate) - float(self.robotXCordinate)
                 targetY = float(self.transmiteryCordinate) - float(self.robotXCordinate)
-                self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(degreeAngle),'relative':True,'dock':False,'dockId':0})
+                self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(radianAngle),'relative':True,'dock':False,'dockId':0})
                 print('x: ', targetX, 'y: ', targetY)
         except KeyboardInterrupt:
             #self.d3.close()

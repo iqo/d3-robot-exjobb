@@ -108,10 +108,10 @@ class AbsoluteNavigation():
                 vector1 = [self.originXCordinate, self.originYCordinate, self.originZCordinate]
                 vector2 = [self.transmiterXCordinate, self.transmiterYCordinate, self.transmiterZCordinate]
                 radianAngle = self.angleBetween(vector1, vector2)
-                degreeAngle = self.degree(radianAngle)
+                #degreeAngle = self.degree(radianAngle)
                 targetX = float(self.transmiterYCordinate) - float(self.originXCordinate)
                 targetY = float(self.transmiterYCordinate) - float(self.originXCordinate)
-                self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(degreeAngle),'relative':False,'dock':False,'dockId':0})
+                self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(radianAngle),'relative':False,'dock':False,'dockId':0})
                 print('x: ', targetX, 'y: ', targetY)
         except KeyboardInterrupt:
             #self.d3.close()
