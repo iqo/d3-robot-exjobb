@@ -61,7 +61,7 @@ class RealtiveNavigation():
         #print(mqttMsgJson)
         #self.data_queue.put(mqttMsgJson)
         jsonMessage = json.dumps(mqttMsgJson)
-        if "BEACON:03FF5C0A2BFA3A9B" in jsonMessage:
+        if "REPORT:42478B1A6B8CBA16" in jsonMessage:
             cordinate = self.parsCordinates(jsonMessage)
             self.robotXCordinate = cordinate[0]
             self.robotYCordinate = cordinate[1]
