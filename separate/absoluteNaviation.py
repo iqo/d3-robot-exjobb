@@ -105,14 +105,14 @@ class AbsoluteNavigation():
                 self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
                 self.d3.sendCommand('depth.floor.enable')
                 self.d3.sendCommand('depth.front.enable')
-                vector1 = [self.originXCordinate, self.originYCordinate, self.originZCordinate]
-                vector2 = [self.transmiterXCordinate, self.transmiterYCordinate, self.transmiterZCordinate]
+                vector1 = [self.originXCordinate, self.originYCordinate]
+                vector2 = [self.transmiterXCordinate, self.transmiterYCordinate]
                 radianAngle = self.angleBetween(vector1, vector2)
                 #degreeAngle = self.degree(radianAngle)
-                targetX = float(self.transmiterYCordinate) - float(self.originXCordinate)
-                targetY = float(self.transmiterYCordinate) - float(self.originXCordinate)
-                self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(radianAngle),'relative':False,'dock':False,'dockId':0})
-                print('x: ', targetX, 'y: ', targetY)
+                targetX = float(self.transmiterXCordinate) - float(self.originXCordinate)
+                targetY = float(self.transmiterYCordinate) - float(self.originYCordinate)
+                self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(-radianAngle),'relative':False,'dock':False,'dockId':0})
+                print('x:', targetX, ' y:', targetY, ' angle radians:',-radianAngle)
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')
