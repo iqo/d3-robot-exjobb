@@ -141,8 +141,9 @@ class AbsoluteNavigation():
                         self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(-radianAngle),'relative':False,'dock':False,'dockId':0})
                         print('x:', targetX, ' y:', targetY, ' angle radians:',-radianAngle, ' angle degree:',degreeAngle)
                         time.sleep(5)
-                        self.d3.sendCommand('navigate.cancelTarget')
+                        #self.d3.sendCommand('navigate.cancelTarget')
         except KeyboardInterrupt:
+            self.d3.sendCommand('navigate.cancelTarget')
             self.d3.close()
             self.client.loop_stop()
             print('cleaned up')
