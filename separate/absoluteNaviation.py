@@ -40,7 +40,7 @@ class AbsoluteNavigation():
         self.transmiterXCordinate = None
         self.transmiterYCordinate = None
         self.transmiterZCordinate = None
-        self.client = mqtt.Client()
+        #self.client = mqtt.Client()
 
 
     def parsCordinates(self, data):
@@ -93,13 +93,13 @@ class AbsoluteNavigation():
         return degree
 
     def init_client(self):
-        self.client = mqtt.Client()
-        self.client.on_message = self.on_message
-        self.client.connect(self.broker_url, self.broker_port)
-        self.client.loop_start()
-        self.client.subscribe("ltu-system/#")
-        #self.time.sleep(10)
-        #self.client.loop_stop()
+        client = mqtt.Client()
+        client.on_message = self.on_message
+        client.connect(self.broker_url, self.broker_port)
+        client.loop_start()
+        client.subscribe("ltu-system/#")
+        time.sleep(10)
+        client.loop_stop()
 
     def navigateTarget(self):
         try:
@@ -117,15 +117,15 @@ class AbsoluteNavigation():
                 targetY = float(self.transmiterYCordinate) - float(self.originYCordinate)
                 self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(-radianAngle),'relative':False,'dock':False,'dockId':0})
                 print('x:', targetX, ' y:', targetY, ' angle radians:',-radianAngle)
-                self.client.loop_stop()
+                #self.client.loop_stop()
         except KeyboardInterrupt:
             #self.d3.close()
             print('cleaned up')
             #sys.exit(0)
 
-    def continuousNavigateTarget(self):
-        try:
-            if self.originXCordinate != None and self.originYCordinate != None and self.originZCordinate != None and self.transmiterXCordinate != None and self.transmiterYCordinate != None and self.transmiterZCordinate != None:
+    #def continuousNavigateTarget(self):
+        #try:
+        '''    if self.originXCordinate != None and self.originYCordinate != None and self.originZCordinate != None and self.transmiterXCordinate != None and self.transmiterYCordinate != None and self.transmiterZCordinate != None:
                 self.d3.sendCommand('navigate.enable')
                 self.d3.sendCommand('navigate.obstacleAvoidance.setLevel',{'level' : '2'})
                 self.d3.sendCommand('depth.floor.enable')
@@ -141,13 +141,13 @@ class AbsoluteNavigation():
                         targetY = float(self.transmiterYCordinate) - float(self.originYCordinate)
                         self.d3.sendCommand('navigate.target', {'x':float(targetX),'y':float(targetY),'angleRadians':float(-radianAngle),'relative':False,'dock':False,'dockId':0})
                         print('x:', targetX, ' y:', targetY, ' angle radians:',-radianAngle, ' angle degree:',degreeAngle)
-                        time.sleep(5)
+                        time.sleep(5) '''
                         #self.d3.sendCommand('navigate.cancelTarget')
-        except KeyboardInterrupt:
+        '''except KeyboardInterrupt:
             self.d3.sendCommand('navigate.cancelTarget')
             self.d3.close()
             self.client.loop_stop()
             print('cleaned up')
-            sys.exit(0)
+            sys.exit(0) '''
 
 
