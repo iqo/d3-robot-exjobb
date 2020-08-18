@@ -1,6 +1,6 @@
 [rabbitmq]
-username = "guest"
-password = "guest"
+username = "niklas"
+password = "test"
 host = "192.168.0.105:5672/#"
 sensor_exchange = "sensor_data"
 
