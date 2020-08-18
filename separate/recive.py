@@ -108,7 +108,7 @@ async def main():
     #wss.start()
     loop = asyncio.get_event_loop()
     task1 = loop.create_task(rmq.consume())
-
+    await task1
     #asyncio.create_task(rmq.consume())
     #asyncio.create_task(wss.broadcast())
 
