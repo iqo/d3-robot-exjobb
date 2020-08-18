@@ -106,8 +106,10 @@ async def main():
     
     #wss = WS_Server(config, buffer)
     #wss.start()
+    loop = asyncio.get_event_loop()
+    task1 = loop.create_task(rmq.consume())
 
-    asyncio.create_task(rmq.consume())
+    #asyncio.create_task(rmq.consume())
     #asyncio.create_task(wss.broadcast())
 
 if __name__ == "__main__":
