@@ -3,7 +3,7 @@ import asyncio
 import aio_pika
 import random
 import toml
-
+import absoluteNaviation
 
 class RMQ_Connection:
 
@@ -53,6 +53,8 @@ class RMQ_Connection:
             async for message in queue_iter:
                 async with message.process():
                     if(message.body == b'"hello"'):
+                        nav.init_client()
+                        nav.navigateTarget()
                         print( "[x] Received %r" % message.body)
                     #await self.buffer.put(message.body.decode())
                     #if queue.name in message.body.decode():
@@ -61,47 +63,12 @@ class RMQ_Connection:
     def get_queue_iter(self):
         return self._queue.iterator()
 
-'''
-class WS_Server:
-    def __init__(self, config, buffer):
-        self.config = config['websocket']
-        self.connected = set()
-        self.server = websockets.serve(self.handler, config['websocket']['ip'], config['websocket']['port'])
-        self.buffer = buffer
-
-    async def handler(self, websocket, path):
-        # Register.
-        self.connected.add(websocket)
-        print("client connected")
-        try:
-            while True:
-                msg = await websocket.recv()
-                print("message received: "+msg)
-                #await asyncio.wait([ws.send("Hello!") for ws in connected])
-                #await asyncio.sleep(10)
-        except websockets.ConnectionClosedOK:
-            print("disconnected")
-        except websockets.ConnectionClosedError:
-            print("ConnectionClosedError")
-        finally:
-            print("removed ws from connected")
-            self.connected.remove(websocket)
-
-    async def broadcast(self):
-        while True:
-            msg = await self.buffer.get()
-            if len(self.connected) > 0:
-                await asyncio.wait([ws.send(msg) for ws in self.connected])          
-
-    def start(self):
-        asyncio.ensure_future(self.server)
-'''
-
 async def main():
     config = toml.load("config.toml")
     buffer = asyncio.Queue(maxsize=10)
 
     rmq = RMQ_Connection(config, buffer)
+
     await rmq.connect()
     
     #wss = WS_Server(config, buffer)
@@ -113,5 +80,6 @@ async def main():
     #asyncio.create_task(wss.broadcast())
 
 if __name__ == "__main__":
+    nav = absoluteNaviation.AbsoluteNavigation()
     asyncio.get_event_loop().run_until_complete(main())
     asyncio.get_event_loop().run_forever()

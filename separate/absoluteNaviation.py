@@ -63,6 +63,7 @@ class AbsoluteNavigation():
         #print(mqttMsgJson)
         #self.data_queue.put(mqttMsgJson)
         jsonMessage = json.dumps(mqttMsgJson)
+        print(jsonMessage)
         if "REPORT:42478B1A6B8CBA16" in jsonMessage:
             cordinate = self.parsCordinates(jsonMessage)
             self.transmiterXCordinate = cordinate[0]
