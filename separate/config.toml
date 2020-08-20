@@ -1,7 +1,7 @@
 [rabbitmq]
 username = "niklas"
 password = "test"
-host = "192.168.43.160:5672/#"
+host = "192.168.43.162:5672/#"
 sensor_exchange = "sensor_data"
 
 [websocket]
