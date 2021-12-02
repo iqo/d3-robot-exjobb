@@ -1,0 +1,20 @@
+#Config for the Widefind sensor
+[rabbitmq]
+username = "guest"
+password = "guest"
+host = "localhost:5672/#"
+routing_key = "test"
+sensor_exchange = "sensor_data"
+
+
+[connection]
+#MQTT IP for widefind
+broker_ip = "ext.widefind.se"
+broker_port = 20204
+blacklist = ['blacklist']
+entrypoint = "entrypoint"
+entrypoint_port = "entrypoint-port"
+
+[asynctimer]
+#Await asyncio sleep time
+aast = 1    
